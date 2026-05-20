@@ -5,38 +5,66 @@ import QtQuick.Layouts
 
 Window {
     id: window
-    width: 640
-    height: 480
+    width: 820
+    height: 640
     visible: true
     title: qsTr("D.U.C.K")
-    color: "#002775"
+    color:"#003455"
+        Shortcut {
+            sequences: ["F5", "Ctrl+R"]
+            onActivated: {
+                console.log("Recarregando a interface...")
+                // Como estamos lendo direto do arquivo físico, basta fechar
+                // e pedir para a janela ler a si mesma novamente
+                window.close()
 
-    Component.onCompleted: window.forceActiveFocus()
+                // O Qt Creator limpa o cache automaticamente ao salvar se o arquivo for externo.
+                // Para atualizar, basta rodar o comando de execução de novo ou usar o atalho interno do Qt.
+            }
+        }
+
+    Component.onCompleted: hardwareHandler.forceActiveFocus()
 
     // Mantenha APENAS UM bloco de BotoesFisicos
     BotoesFisicos {
-        id: hardwareHandler
+            id: hardwareHandler
+            focus: true // <-- Aqui fica TRUE para ele ouvir o teclado!
 
-        // Use toggle() para o mesmo botão abrir e fechar
-        onMenuRequested: sideMenu.toggle()
+            onMenuRequested: {
+                if (sideMenu.opened) {
+                    sideMenu.close()
+                } else {
+                    sideMenu.open()
+                }
+            }
 
-        onConfirmRequested: console.log("Confirmado via botões Fisicos")
-
-        onBackRequested: {
-            if (sideMenu.opened) sideMenu.close()
-            else console.log("Voltar pressionado")
+            onBackRequested: {
+                if (sideMenu.opened) sideMenu.close()
+            }
         }
 
-
-    }
 
     Drawer {
         id: sideMenu
         width: window.width * 0.3 // Aumentei um pouco (15% era muito estreito)
         height: window.height
         edge: Qt.LeftEdge
-        z:
+        z: 10
+        // AS PROPRIEDADES DE CONTEXTO FICAM AQUI DENTRO:
+                dim: false
+                focus: false
 
+                onOpened: {
+                    hardwareHandler.forceActiveFocus()
+                }
+
+                onClosed: {
+                    hardwareHandler.forceActiveFocus()
+                }
+
+                background: Rectangle {
+                    color: "gray"
+                }
         Column {
             anchors.fill: parent
             anchors.margins: 10

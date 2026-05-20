@@ -4,38 +4,46 @@ Item {
     id: root
     focus: true
 
-    // Definimos "sinais" para que o Window saiba quando algo aconteceu
-    // sem que este arquivo precise conhecer os detalhes da Window
+    // Sinais para comunicação com o Main.qml
     signal menuRequested()
     signal upRequested()
     signal downRequested()
     signal confirmRequested()
     signal backRequested()
 
-    Shortcut {
-        sequence: "c"
-        onActivated: root.menuRequested()
+    // O pulo do gato: Captura direta dos eventos de teclado do Linux
+    Keys.onPressed: (event) => {
+        console.log("Tecla pressionada no hardware:", event.key) // Debug excelente para ver no terminal
+
+        switch (event.key) {
+            case Qt.Key_C:
+                root.menuRequested()
+                event.accepted = true
+                break
+
+            case Qt.Key_V:
+                root.upRequested()
+                event.accepted = true
+                break
+
+            case Qt.Key_B:
+                root.downRequested()
+                event.accepted = true
+                break
+
+            case Qt.Key_N:
+                root.confirmRequested()
+                event.accepted = true
+                break
+
+            case Qt.Key_M:
+                root.backRequested()
+                event.accepted = true
+                break
+
+            default:
+                // Se for qualquer outra tecla, deixa o sistema processar normalmente
+                break
+        }
     }
-
-    Shortcut {
-        sequence: "v"
-        onActivated: root.upRequested()
-    }
-
-    Shortcut {
-        sequence: "b"
-        onActivated: root.downRequested()
-    }
-
-    Shortcut {
-        sequence: "n"
-        onActivated: root.confirmRequested()
-    }
-
-    Shortcut {
-        sequence: "m"
-        onActivated: root.backRequested()
-    }
-
-
 }
