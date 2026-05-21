@@ -35,12 +35,49 @@ Window {
                     sideMenu.close()
                 } else {
                     sideMenu.open()
+                    btnColheita.forceActiveFocus()
+                    botoesMenu[indiceFoco].forceActiveFocus()
                 }
             }
 
+            onUpRequested: {
+                        if (!sideMenu.opened) return;
+
+                        // Decrementa o índice. Se for menor que 0, volta para o último botão (looping)
+                        indiceFoco--
+                        if (indiceFoco < 0) {
+                            indiceFoco = botoesMenu.length - 1
+                        }
+
+                        botoesMenu[indiceFoco].forceActiveFocus()
+                        console.log("Focado no botão índice:", indiceFoco)
+                    }
+
+            onDownRequested: {
+                        if (!sideMenu.opened) return;
+
+                        // Incrementa o índice. Se estourar o tamanho da lista, volta para o primeiro (0)
+                        indiceFoco++
+                        if (indiceFoco >= botoesMenu.length) {
+                            indiceFoco = 0
+                        }
+
+                        botoesMenu[indiceFoco].forceActiveFocus()
+                        console.log("Focado no botão índice:", indiceFoco)
+                    }
+            onConfirmRequested: {
+                        // Se o item focado for um botão válido e tiver a função de clique
+                        if (window.activeFocusItem && typeof window.activeFocusItem.clicked === "function") {
+                            console.log("Confirmando botão:", window.activeFocusItem.text)
+                            window.activeFocusItem.clicked()
+                        }
+                        // Tecla M: Voltar (Fecha o menu se estiver aberto)
+
             onBackRequested: {
-                if (sideMenu.opened) sideMenu.close()
-            }
+                                    if (sideMenu.opened) {
+                                        sideMenu.close()
+                                    }
+                                }
         }
 
 
@@ -70,6 +107,7 @@ Window {
             anchors.margins: 10
             spacing: 15
 
+
             Label {
                 text: "Telas de dados"
                 font.pixelSize: 20
@@ -78,10 +116,98 @@ Window {
             }
 
             Button {
-                id: btnDados
-                text: "Dados da Maquina"
+                id: btnColheita
+                text: "DADOS DE COLHEITA" //dados da colheita
                 width: parent.width
                 focus: true
+                activeFocusOnTab: true
+
+                background: Rectangle {
+                            // Se este botão ganhar o foco, ele fica vermelho
+                            color: btnColheita.visualFocus ? "red" : "#333333"
+                            radius: 5
+                            border.color: btnColheita.visualFocus ? "white" : "transparent"
+                            border.width: 2
+                        }
+
+                onClicked: sideMenu.close()
+                // Corrigi os IDs aqui para não dar erro de referência
+                KeyNavigation.down: btnSair
+            }
+            Button {
+                id: btnClima
+                text: "DADOS DE CLIMA"//combustivel
+                activeFocusOnTab: true
+                width: parent.width
+                focus: true
+
+                background: Rectangle {
+                            // Se este botão ganhar o foco, ele fica vermelho
+                            color: btnClima.visualFocus ? "red" : "#333333"
+                            radius: 5
+                            border.color: btnClima.visualFocus ? "white" : "transparent"
+                            border.width: 2
+                        }
+
+                onClicked: sideMenu.close()
+                // Corrigi os IDs aqui para não dar erro de referência
+
+                KeyNavigation.down: btnSair
+
+            }
+            Button {
+                id: btnGPS
+                text: "DADOS DE GPS" //mapa gps
+                activeFocusOnTab: true
+                width: parent.width
+                focus: true
+
+                background: Rectangle {
+                            // Se este botão ganhar o foco, ele fica vermelho
+                            color: btnGPS.visualFocus ? "red" : "#333333"
+                            radius: 5
+                            border.color: btnGPS.visualFocus ? "white" : "transparent"
+                            border.width: 2
+                        }
+
+                onClicked: sideMenu.close()
+                // Corrigi os IDs aqui para não dar erro de referência
+                KeyNavigation.down: btnSair
+            }
+            Button {
+                id: btnSpeed
+                text: "DADOS DE VELOCIDADE"//combustivel
+                activeFocusOnTab: true
+                width: parent.width
+                focus: true
+
+                background: Rectangle {
+                            // Se este botão ganhar o foco, ele fica vermelho
+                            color: btnSpeed.visualFocus ? "red" : "#333333"
+                            radius: 5
+                            border.color: btnSpeed.visualFocus ? "white" : "transparent"
+                            border.width: 2
+                        }
+
+                onClicked: sideMenu.close()
+                // Corrigi os IDs aqui para não dar erro de referência
+                KeyNavigation.down: btnSair
+            }
+            Button {
+                id: btnDados
+                text: "DADOS DE MAQUINA"//combustivel
+                activeFocusOnTab: true
+                width: parent.width
+                focus: true
+
+                background: Rectangle {
+                            // Se este botão ganhar o foco, ele fica vermelho
+                            color: btnDados.visualFocus ? "red" : "#333333"
+                            radius: 5
+                            border.color: btnDados.visualFocus ? "white" : "transparent"
+                            border.width: 2
+                        }
+
                 onClicked: sideMenu.close()
                 // Corrigi os IDs aqui para não dar erro de referência
                 KeyNavigation.down: btnSair
@@ -93,6 +219,16 @@ Window {
                 id: btnSair
                 text: "X"
                 width: parent.width
+                focus: true
+
+                background: Rectangle {
+                            // Se este botão ganhar o foco, ele fica vermelho
+                            color: btnSair.visualFocus ? "red" : "#333333"
+                            radius: 5
+                            border.color: btnSair.visualFocus ? "white" : "transparent"
+                            border.width: 2
+                        }
+
                 onClicked: sideMenu.close()
                 KeyNavigation.up: btnDados
             }
@@ -117,5 +253,6 @@ Window {
         y: window.height
         width: window.width
         // ... (resto do código do teclado igual)
+    }
     }
 }

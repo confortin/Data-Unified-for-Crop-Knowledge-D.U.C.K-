@@ -29,11 +29,13 @@ Item {
             case Qt.Key_B:
                 root.downRequested()
                 event.accepted = true
+
                 break
 
             case Qt.Key_N:
                 root.confirmRequested()
                 event.accepted = true
+
                 break
 
             case Qt.Key_M:
@@ -46,4 +48,5 @@ Item {
                 break
         }
     }
+
 }
