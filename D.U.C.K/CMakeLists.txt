@@ -17,6 +17,14 @@ qt_add_qml_module(appfarmer_Duck
     QML_FILES
         Main.qml
         QML_FILES BotoesFisicos.qml
+        QML_FILES
+        RESOURCES
+        QML_FILES telas/TelaColheita.qml
+        QML_FILES telas/TelaHome.qml
+        QML_FILES telas/TelaGps.qml
+        QML_FILES telas/TelaCLima.qml
+        QML_FILES telas/TelaMaquina.qml
+        QML_FILES telas/TelaVelocidade.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

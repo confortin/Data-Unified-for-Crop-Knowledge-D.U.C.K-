@@ -30,6 +30,17 @@ Window {
      property var menuButtons: [btnColheita, btnClima, btnGPS, btnSpeed, btnDados, btnS]
 
 
+    Loader {
+               id: telaLoader
+               anchors.fill: parent
+               anchors.leftMargin: sideMenu.opened ? sideMenu.width : 0
+               // Opcional: animação suave
+               Behavior on anchors.leftMargin { NumberAnimation { duration: 200 } }
+
+               // Tela inicial (por exemplo, um painel padrão)
+               source: "Telas/TelaInicial.qml"
+           }
+
     // Mantenha APENAS UM bloco de BotoesFisicos
     BotoesFisicos {
             id: hardwareHandler
@@ -135,7 +146,10 @@ Window {
                                     border.width: 2
                         }
 
-                onClicked: sideMenu.close()
+                onClicked:{
+                    telaLoader.source = "telas/TelaColheita.qml"
+                    sideMenu.close()
+                }
                 // Corrigi os IDs aqui para não dar erro de referência
                 KeyNavigation.down: btnSair
             }
@@ -154,7 +168,9 @@ Window {
                             border.width: 2
                         }
 
-                onClicked: sideMenu.close()
+                onClicked: {sideMenu.close()
+                  telaLoader.source = "telas/TelaCLima.qml"
+                }
                 // Corrigi os IDs aqui para não dar erro de referência
 
                 KeyNavigation.down: btnSair
@@ -175,7 +191,9 @@ Window {
                             border.width: 2
                         }
 
-                onClicked: sideMenu.close()
+                onClicked: {sideMenu.close()
+                  telaLoader.source = "telas/TelaGps.qml"
+                }
                 // Corrigi os IDs aqui para não dar erro de referência
                 KeyNavigation.down: btnSair
             }
@@ -194,7 +212,9 @@ Window {
                             border.width: 2
                         }
 
-                onClicked: sideMenu.close()
+                onClicked: {sideMenu.close()
+                  telaLoader.source = "telas/TelaVelocidade.qml"
+                }
                 // Corrigi os IDs aqui para não dar erro de referência
                 KeyNavigation.down: btnSair
             }
@@ -213,7 +233,9 @@ Window {
                             border.width: 2
                         }
 
-                onClicked: sideMenu.close()
+                onClicked: {sideMenu.close()
+                  telaLoader.source = "telas/TelaMaquina.qml"
+                }
                 // Corrigi os IDs aqui para não dar erro de referência
                 KeyNavigation.down: btnSair
             }
@@ -234,7 +256,10 @@ Window {
                             border.width: 2
                         }
 
-                onClicked: sideMenu.close()
+                onClicked: {
+                    telaLoader.source = "telas/TelaHome.qml"
+                    sideMenu.close()
+                }
                 KeyNavigation.up: btnDados
             }
         }
