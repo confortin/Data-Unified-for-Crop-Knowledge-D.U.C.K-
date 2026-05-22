@@ -11,6 +11,7 @@ Item {
     signal confirmRequested()
     signal backRequested()
 
+
     // O pulo do gato: Captura direta dos eventos de teclado do Linux
     Keys.onPressed: (event) => {
         console.log("Tecla pressionada no hardware:", event.key) // Debug excelente para ver no terminal

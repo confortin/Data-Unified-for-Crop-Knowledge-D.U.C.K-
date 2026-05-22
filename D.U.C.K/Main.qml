@@ -5,8 +5,8 @@ import QtQuick.Layouts
 
 Window {
     id: window
-    width: 820
-    height: 640
+    width: 920
+    height: 440
     visible: true
     title: qsTr("D.U.C.K")
     color:"#003455"
@@ -22,62 +22,62 @@ Window {
                 // Para atualizar, basta rodar o comando de execução de novo ou usar o atalho interno do Qt.
             }
         }
+    property int indiceFoco: 0
+    property var botoesMenu: []
+     // Índice do botão atualmente selecionado no drawer
+     property int currentIndex: 0
+     // Array com os botões na ordem em que aparecem
+     property var menuButtons: [btnColheita, btnClima, btnGPS, btnSpeed, btnDados, btnS]
 
-    Component.onCompleted: hardwareHandler.forceActiveFocus()
 
     // Mantenha APENAS UM bloco de BotoesFisicos
     BotoesFisicos {
             id: hardwareHandler
             focus: true // <-- Aqui fica TRUE para ele ouvir o teclado!
-
             onMenuRequested: {
-                if (sideMenu.opened) {
-                    sideMenu.close()
-                } else {
-                    sideMenu.open()
-                    btnColheita.forceActiveFocus()
-                    botoesMenu[indiceFoco].forceActiveFocus()
+                    if (sideMenu.opened) {
+                        sideMenu.close()
+                    } else {
+                        sideMenu.open()
+                        // Não precisa chamar btnColheita.forceActiveFocus() duplicado
+                        currentIndex = 0
+                    }
+
                 }
-            }
 
-            onUpRequested: {
-                        if (!sideMenu.opened) return;
+                onUpRequested: {
+                    if (!sideMenu.opened) return
+                                console.log("UP pressionado, drawer opened?", sideMenu.opened)
+                                currentIndex = (currentIndex - 1 + menuButtons.length) % menuButtons.length
+                                console.log("Selecionado índice:", currentIndex)
+                                // Devolve o foco para o hardwareHandler (caso algo tenha roubado)
+                                hardwareHandler.forceActiveFocus()
+                }
 
-                        // Decrementa o índice. Se for menor que 0, volta para o último botão (looping)
-                        indiceFoco--
-                        if (indiceFoco < 0) {
-                            indiceFoco = botoesMenu.length - 1
-                        }
+                onDownRequested: {
+                    if (!sideMenu.opened) return
+                                console.log("UP pressionado, drawer opened?", sideMenu.opened)
+                                currentIndex = (currentIndex + 1) % menuButtons.length
+                                console.log("Selecionado índice:", currentIndex)
+                                hardwareHandler.forceActiveFocus()
+                }
 
-                        botoesMenu[indiceFoco].forceActiveFocus()
-                        console.log("Focado no botão índice:", indiceFoco)
-                    }
+                onConfirmRequested: {
+                    if (!sideMenu.opened) return
+                              var botaoSelecionado = menuButtons[currentIndex]
+                              if (botaoSelecionado && typeof botaoSelecionado.clicked === "function") {
+                                  console.log("Confirmando:", botaoSelecionado.text)
+                                  botaoSelecionado.clicked()
+                              }
+                              hardwareHandler.forceActiveFocus()
+                }
 
-            onDownRequested: {
-                        if (!sideMenu.opened) return;
+                onBackRequested: {
+                    if (sideMenu.opened) sideMenu.close()
+                                hardwareHandler.forceActiveFocus()
+                }
 
-                        // Incrementa o índice. Se estourar o tamanho da lista, volta para o primeiro (0)
-                        indiceFoco++
-                        if (indiceFoco >= botoesMenu.length) {
-                            indiceFoco = 0
-                        }
 
-                        botoesMenu[indiceFoco].forceActiveFocus()
-                        console.log("Focado no botão índice:", indiceFoco)
-                    }
-            onConfirmRequested: {
-                        // Se o item focado for um botão válido e tiver a função de clique
-                        if (window.activeFocusItem && typeof window.activeFocusItem.clicked === "function") {
-                            console.log("Confirmando botão:", window.activeFocusItem.text)
-                            window.activeFocusItem.clicked()
-                        }
-                        // Tecla M: Voltar (Fecha o menu se estiver aberto)
-
-            onBackRequested: {
-                                    if (sideMenu.opened) {
-                                        sideMenu.close()
-                                    }
-                                }
         }
 
 
@@ -92,11 +92,16 @@ Window {
                 focus: false
 
                 onOpened: {
-                    hardwareHandler.forceActiveFocus()
-                }
+                    if (menuButtons.length === 0) {
+                                menuButtons = [btnColheita, btnClima, btnGPS, btnSpeed, btnDados, btnSair]
+                            }
+                            currentIndex = 0
+                            hardwareHandler.forceActiveFocus()
+                        }
+
 
                 onClosed: {
-                    hardwareHandler.forceActiveFocus()
+
                 }
 
                 background: Rectangle {
@@ -123,11 +128,11 @@ Window {
                 activeFocusOnTab: true
 
                 background: Rectangle {
-                            // Se este botão ganhar o foco, ele fica vermelho
-                            color: btnColheita.visualFocus ? "red" : "#333333"
-                            radius: 5
-                            border.color: btnColheita.visualFocus ? "white" : "transparent"
-                            border.width: 2
+                            // Se o índice atual for 0, pinta de vermelho; senão, cinza escuro
+                                    color: window.currentIndex === 0 ? "red" : "#333333"
+                                    radius: 5
+                                    border.color: window.currentIndex === 0 ? "white" : "transparent"
+                                    border.width: 2
                         }
 
                 onClicked: sideMenu.close()
@@ -143,9 +148,9 @@ Window {
 
                 background: Rectangle {
                             // Se este botão ganhar o foco, ele fica vermelho
-                            color: btnClima.visualFocus ? "red" : "#333333"
+                            color: window.currentIndex === 1 ? "red" : "#333333"
                             radius: 5
-                            border.color: btnClima.visualFocus ? "white" : "transparent"
+                            border.color: window.currentIndex === 1 ? "white" : "transparent"
                             border.width: 2
                         }
 
@@ -164,9 +169,9 @@ Window {
 
                 background: Rectangle {
                             // Se este botão ganhar o foco, ele fica vermelho
-                            color: btnGPS.visualFocus ? "red" : "#333333"
+                            color: window.currentIndex === 2 ? "red" : "#333333"
                             radius: 5
-                            border.color: btnGPS.visualFocus ? "white" : "transparent"
+                            border.color: window.currentIndex === 2 ? "white" : "transparent"
                             border.width: 2
                         }
 
@@ -183,9 +188,9 @@ Window {
 
                 background: Rectangle {
                             // Se este botão ganhar o foco, ele fica vermelho
-                            color: btnSpeed.visualFocus ? "red" : "#333333"
+                            color: window.currentIndex === 3 ? "red" : "#333333"
                             radius: 5
-                            border.color: btnSpeed.visualFocus ? "white" : "transparent"
+                            border.color: window.currentIndex === 3 ? "white" : "transparent"
                             border.width: 2
                         }
 
@@ -202,9 +207,9 @@ Window {
 
                 background: Rectangle {
                             // Se este botão ganhar o foco, ele fica vermelho
-                            color: btnDados.visualFocus ? "red" : "#333333"
+                            color: window.currentIndex === 4 ? "red" : "#333333"
                             radius: 5
-                            border.color: btnDados.visualFocus ? "white" : "transparent"
+                            border.color: window.currentIndex === 4 ? "white" : "transparent"
                             border.width: 2
                         }
 
@@ -223,9 +228,9 @@ Window {
 
                 background: Rectangle {
                             // Se este botão ganhar o foco, ele fica vermelho
-                            color: btnSair.visualFocus ? "red" : "#333333"
+                            color: window.currentIndex === 5 ? "red" : "#333333"
                             radius: 5
-                            border.color: btnSair.visualFocus ? "white" : "transparent"
+                            border.color: window.currentIndex === 5 ? "white" : "transparent"
                             border.width: 2
                         }
 
@@ -254,5 +259,8 @@ Window {
         width: window.width
         // ... (resto do código do teclado igual)
     }
+    Component.onCompleted: {
+          menuButtons = [btnColheita, btnClima, btnGPS, btnSpeed, btnDados, btnSair]
+          hardwareHandler.forceActiveFocus()
+      }
     }
-}
