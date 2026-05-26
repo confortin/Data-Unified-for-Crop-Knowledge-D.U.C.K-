@@ -244,7 +244,7 @@ Window {
 
             Button {
                 id: btnSair
-                text: "X"
+                text: "HOME"
                 width: parent.width
                 focus: true
 
