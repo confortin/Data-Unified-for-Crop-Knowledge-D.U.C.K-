@@ -96,8 +96,9 @@ Rectangle {
             Layout.row: 0
             Layout.column: 1
             Layout.columnSpan: 2
-            Layout.fillWidth: true
+            Layout.fillWidth: false
             Layout.preferredHeight: 200
+            Layout.preferredWidth: 663
             cardColor: "#5587AD"
             Text {
                 anchors.centerIn: parent
@@ -109,10 +110,10 @@ Rectangle {
 
         // Combustível na linha 3, coluna 0
         ShadowCard {
-            Layout.row: 0
+            Layout.row:1
             Layout.column: 2
-            Layout.preferredWidth: 200
-            Layout.preferredHeight: 100
+            Layout.preferredWidth: 125
+            Layout.preferredHeight: 200
             cardColor: "#5587AD"
             Text {
                 anchors.centerIn: parent
