@@ -52,24 +52,15 @@ Rectangle {
                 anchors.margins: 15
                 spacing: 12
 
-
-
-                // Exemplo de Card de Informação 1 (ex: Velocidade Atual)
-                Rectangle {
-                    Layout.row: 0
-                    Layout.column: 0
-                    Layout.preferredWidth: 100
-                    Layout.preferredHeight: 100
-                    Layout.fillWidth: false  // vai expandir até a largura disponível
-                    Text {
-                        anchors.centerIn: parent
-                        text: "Velocímetro"
-                        color: "white"
-                        font.pixelSize: 24
-                    }
+                Label {
+                    text: "Informações"
+                    color: "white"
+                    font.bold: true
+                    font.pixelSize: 18
+                    Layout.alignment: Qt.AlignHCenter
                 }
 
-                // Exemplo de Card de Informação 2 (ex: Satélites Conectados)
+                // Exemplo de Card de Informação 1 (ex: Velocidade Atual)
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 60
@@ -77,7 +68,43 @@ Rectangle {
                     radius: 5
 
                     Label {
-                        text: "Sinal: Excelente (9 Sat.)"
+                        text: "Velocidade: 12 km/h"
+                        color: "white"
+                        anchors.centerIn: parent
+                    }
+                }
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 60
+                    color: "#38637f"
+                    radius: 5
+
+                    Label {
+                        text: "Clima"
+                        color: "white"
+                        anchors.centerIn: parent
+                    }
+                }
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 60
+                    color: "#38637f"
+                    radius: 5
+
+                    Label {
+                        text: "Colheita"
+                        color: "white"
+                        anchors.centerIn: parent
+                    }
+                }
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 60
+                    color: "#38637f"
+                    radius: 5
+
+                    Label {
+                        text: "combustivel"
                         color: "white"
                         anchors.centerIn: parent
                     }
