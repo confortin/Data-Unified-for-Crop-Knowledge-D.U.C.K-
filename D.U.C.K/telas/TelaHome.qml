@@ -1,26 +1,26 @@
 import QtQuick
 import QtQuick.Layouts
-// se ShadowCard estiver em pasta separada
 
 Rectangle {
+    id: homeRoot
+    anchors.fill: parent          // 🔹 Preenche todo o espaço da janela
     color: "#003455"
-    width: 800
-    height: 600
 
     GridLayout {
-        anchors.fill: parent
+        anchors.fill: parent      // 🔹 Expande para ocupar toda a homeRoot
         anchors.margins: 20
-        columns: 3
+        columns: 2
         rowSpacing: 15
         columnSpacing: 15
 
-        // Linha 0, coluna 0: Velocímetro
+        // ---------- Velocímetro (0,0) ----------
         ShadowCard {
             Layout.row: 0
             Layout.column: 0
-            Layout.preferredWidth: 200
-            Layout.preferredHeight: 200
-            Layout.fillWidth: false  // vai expandir até a largura disponível
+            Layout.fillWidth: true      // Permite expandir horizontalmente
+            Layout.fillHeight: true
+            Layout.minimumHeight: 140
+            Layout.preferredHeight: 1   // Proporção: altura relativa dentro da linha
             cardColor: "#5587AD"
             Text {
                 anchors.centerIn: parent
@@ -30,75 +30,15 @@ Rectangle {
             }
         }
 
-        // Linha 0, coluna 1: GPS
+        // ---------- Plantação (0,1 + 0,2) ----------
         ShadowCard {
             Layout.row: 1
             Layout.column: 0
-            Layout.preferredWidth: 200
-            Layout.preferredHeight: 200
-            Layout.fillWidth: false
-            cardColor: "#5587AD"
-            Text {
-                anchors.centerIn: parent
-                text: "GPS"
-                color: "white"
-                font.pixelSize: 24
-            }
-        }
-        // Linha 1, coluna 2? Não, temos só 2 colunas. O próximo vai para a linha 2.
-        // Mas queremos quatro cards pequenos na mesma linha. Para isso, podemos criar um
-        // layout aninhado (RowLayout) dentro da célula da primeira coluna,
-        // ou então usar columnSpan e rowSpan.
-
-        // Abordagem mais simples: colocar os quatro cards pequenos dentro de um RowLayout
-        // que ocupa as 2 colunas.
-
-        Item {
-            Layout.row: 1
-            Layout.column: 1
-            Layout.columnSpan: 2
+            Layout.columnSpan: 1
             Layout.fillWidth: true
-            Layout.preferredHeight: 120
-
-            RowLayout {
-                anchors.fill: parent
-                spacing: 15
-                ShadowCard {
-                    Layout.preferredWidth: 120
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "Chuva"; color: "white" }
-                }
-                ShadowCard {
-                    Layout.preferredWidth: 120
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "Temp"; color: "white" }
-                }
-                ShadowCard {
-                    Layout.preferredWidth: 120
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "Vento"; color: "white" }
-                }
-                ShadowCard {
-                    Layout.preferredWidth: 120
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "ml chuva"; color: "white" }
-                }
-                Item { Layout.fillWidth: true } // espaçador flexível
-            }
-        }
-
-        // Plantação ocupa 2 colunas na linha 2
-        ShadowCard {
-            Layout.row: 0
-            Layout.column: 1
-            Layout.columnSpan: 2
-            Layout.fillWidth: false
-            Layout.preferredHeight: 200
-            Layout.preferredWidth: 663
+            Layout.fillHeight: true
+            Layout.minimumHeight: 150
+            Layout.preferredHeight: 1
             cardColor: "#5587AD"
             Text {
                 anchors.centerIn: parent
@@ -108,18 +48,73 @@ Rectangle {
             }
         }
 
-        // Combustível na linha 3, coluna 0
+        // ---------- GPS (1,0) ----------
         ShadowCard {
-            Layout.row:1
-            Layout.column: 2
-            Layout.preferredWidth: 125
-            Layout.preferredHeight: 200
+            Layout.row: 0
+            Layout.column: 1
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumHeight: 150
+            Layout.preferredHeight: 1
+            Layout.preferredWidth: 700
             cardColor: "#5587AD"
             Text {
                 anchors.centerIn: parent
-                text: "Combustível"
+                text: "GPS"
                 color: "white"
+                font.pixelSize: 24
             }
         }
+
+        // ---------- 4 cards pequenos (1,1 + 1,2) ----------
+        Item {
+            Layout.row: 1
+            Layout.column: 1
+            Layout.columnSpan: 2
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.preferredHeight: 1
+
+            RowLayout {
+                anchors.fill: parent
+                spacing: 10
+
+                ShadowCard {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    cardColor: "#5587AD"
+                    Text { anchors.centerIn: parent; text: "Chuva"; color: "white" }
+                }
+                ShadowCard {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    cardColor: "#5587AD"
+                    Text { anchors.centerIn: parent; text: "Temp"; color: "white" }
+                }
+                ShadowCard {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    cardColor: "#5587AD"
+                    Text { anchors.centerIn: parent; text: "Vento"; color: "white" }
+                }
+                ShadowCard {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    cardColor: "#5587AD"
+                    Text { anchors.centerIn: parent; text: "ml chuva"; color: "white" }
+                }
+                ShadowCard {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    cardColor: "#5587AD"
+                    Text { anchors.centerIn: parent; text: "combustivel"; color: "white" }
+                }
+            }
+        }
+
+
+        // Espaços vazios para manter proporção (opcional)
+        Item { Layout.row: 2; Layout.column: 1; Layout.fillWidth: true; Layout.fillHeight: true }
+        Item { Layout.row: 2; Layout.column: 2; Layout.fillWidth: true; Layout.fillHeight: true }
     }
 }
