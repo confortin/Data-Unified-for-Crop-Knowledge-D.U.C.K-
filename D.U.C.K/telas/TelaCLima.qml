@@ -3,102 +3,27 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Rectangle {
-    id: rootTelaClima
+    id: root
     anchors.fill: parent
-    color: "#003455"
+    color: "#0c1117"
 
     RowLayout {
         anchors.fill: parent
-        anchors.margins: 15
-        spacing: 15
+        anchors.margins: 12
+        spacing: 12
 
-        // ==========================================
-        // ÁREA PRINCIPAL – DETALHES DO CLIMA (70%)
-        // ==========================================
+        // ======================================
+        // AREA PRINCIPAL
+        // ======================================
+
         Rectangle {
-            id: areaClima
             Layout.fillWidth: true
-            Layout.preferredWidth: 7      // 70%
+            Layout.preferredWidth: 7
             Layout.fillHeight: true
-            color: "#4a7a96"
-            radius: 10
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 20
-                spacing: 15
-
-                // Cabeçalho
-                Label {
-                    text: "CLIMA ATUAL"
-                    color: "white"
-                    font.bold: true
-                    font.pixelSize: 22
-                    Layout.alignment: Qt.AlignHCenter
-                }
-
-                // Temperatura + condição (em linha)
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 100
-                    spacing: 20
-
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        color: "#38637f"
-                        radius: 8
-                        Label {
-                            anchors.centerIn: parent
-                            text: "28°C"
-                            color: "white"
-                            font.pixelSize: 40
-                            font.bold: true
-                        }
-                    }
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        color: "#38637f"
-                        radius: 8
-                        Label {
-                            anchors.centerIn: parent
-                            text: "☀️ Ensolarado\nSensação 30°C"
-                            color: "white"
-                            font.pixelSize: 18
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                    }
-                }
-
-                // Grade de detalhes (umidade, vento, pressão, UV, nascer/pôr do sol)
-                GridLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    columns: 2
-                    rowSpacing: 10
-                    columnSpacing: 10
-
-                    DetailCard { label: "Umidade"; value: "65%" }
-                    DetailCard { label: "Vento"; value: "12 km/h" }
-                    DetailCard { label: "Pressão"; value: "1013 hPa" }
-                    DetailCard { label: "Índice UV"; value: "5 (Moderado)" }
-                    DetailCard { label: "Nascer do sol"; value: "06:32" }
-                    DetailCard { label: "Pôr do sol"; value: "17:45" }
-                }
-            }
-        }
-
-        // ==========================================
-        // BARRA LATERAL – INFORMAÇÕES BÁSICAS (30%)
-        // ==========================================
-        Rectangle {
-            id: barraLateral
-            Layout.fillWidth: true
-            Layout.preferredWidth: 3      // 30%
-            Layout.fillHeight: true
-            color: "#2c526d"
-            radius: 10
+            radius: 12
+            color: "#111827"
+            border.color: "#1f2937"
 
             ColumnLayout {
                 anchors.fill: parent
@@ -106,90 +31,338 @@ Rectangle {
                 spacing: 12
 
                 Label {
-                    text: "INFORMAÇÕES"
-                    color: "white"
+                    text: "CLIMA"
+                    color: "#84cc16"
+                    font.pixelSize: 24
                     font.bold: true
-                    font.pixelSize: 18
-                    Layout.alignment: Qt.AlignHCenter
                 }
 
-                // Cards resumidos das outras telas
-                ResumoCard { icon: "🚗"; label: "Velocidade"; value: "12 km/h" }
-                ResumoCard { icon: "🌤️"; label: "Clima"; value: "28°C" }
-                ResumoCard { icon: "🌱"; label: "Colheita"; value: "Em crescimento" }
-                ResumoCard { icon: "⛽"; label: "Combustível"; value: "45%" }
+                // ======================================
+                // TOPO
+                // ======================================
 
-                Item { Layout.fillHeight: true }
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 180
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        radius: 10
+                        color: "#161f2b"
+
+                        Column {
+                            anchors.centerIn: parent
+                            spacing: 8
+
+                            Label {
+                                text: "☀"
+                                color: "#facc15"
+                                font.pixelSize: 60
+                            }
+
+                            Label {
+                                text: "28°C"
+                                color: "white"
+                                font.pixelSize: 56
+                                font.bold: true
+                            }
+
+                            Label {
+                                text: "Ensolarado"
+                                color: "#d1d5db"
+                                font.pixelSize: 20
+                            }
+
+                            Label {
+                                text: "Sensação 30°C"
+                                color: "#9ca3af"
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+
+                        radius: 10
+                        color: "#161f2b"
+
+                        GridLayout {
+                            anchors.fill: parent
+                            anchors.margins: 15
+
+                            columns: 2
+
+                            ClimaInfo {
+                                titulo: "💧 Umidade"
+                                valor: "65%"
+                            }
+
+                            ClimaInfo {
+                                titulo: "💨 Vento"
+                                valor: "12 km/h"
+                            }
+
+                            ClimaInfo {
+                                titulo: "🌡 Pressão"
+                                valor: "1013 hPa"
+                            }
+
+                            ClimaInfo {
+                                titulo: "☀ UV"
+                                valor: "5"
+                            }
+                        }
+                    }
+                }
+
+                // ======================================
+                // SOL
+                // ======================================
+
+                RowLayout {
+
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 60
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        radius: 8
+                        color: "#161f2b"
+
+                        Label {
+                            anchors.centerIn: parent
+                            text: "Nascer do Sol 06:32"
+                            color: "white"
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        radius: 8
+                        color: "#161f2b"
+
+                        Label {
+                            anchors.centerIn: parent
+                            text: "Pôr do Sol 17:45"
+                            color: "white"
+                        }
+                    }
+                }
+
+                // ======================================
+                // PREVISÃO
+                // ======================================
+
+                Rectangle {
+
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    radius: 10
+                    color: "#161f2b"
+
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: 15
+
+                        Label {
+                            text: "PREVISÃO 24H"
+                            color: "white"
+                            font.bold: true
+                            font.pixelSize: 18
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+
+                            ForecastCard {
+                                hora: "09:00"
+                                temp: "29°C"
+                                icone: "☀"
+                            }
+
+                            ForecastCard {
+                                hora: "12:00"
+                                temp: "30°C"
+                                icone: "☀"
+                            }
+
+                            ForecastCard {
+                                hora: "15:00"
+                                temp: "31°C"
+                                icone: "☀"
+                            }
+
+                            ForecastCard {
+                                hora: "18:00"
+                                temp: "28°C"
+                                icone: "🌙"
+                            }
+
+                            ForecastCard {
+                                hora: "21:00"
+                                temp: "24°C"
+                                icone: "☁"
+                            }
+
+                            ForecastCard {
+                                hora: "00:00"
+                                temp: "22°C"
+                                icone: "☁"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // ======================================
+        // SIDEBAR
+        // ======================================
+
+        Rectangle {
+
+            Layout.preferredWidth: 260
+            Layout.fillHeight: true
+
+            radius: 12
+            color: "#111827"
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 10
+
+                InfoCard {
+                    titulo: "Velocidade"
+                    valor: "12 km/h"
+                    icone: "🚜"
+                }
+
+                InfoCard {
+                    titulo: "Combustível"
+                    valor: "65%"
+                    icone: "⛽"
+                }
+
+                InfoCard {
+                    titulo: "Colheita"
+                    valor: "8.2 t/ha"
+                    icone: "🌾"
+                }
+
+                InfoCard {
+                    titulo: "GPS"
+                    valor: "Talhão Norte"
+                    icone: "📍"
+                }
+
+                Item {
+                    Layout.fillHeight: true
+                }
             }
         }
     }
 
-    // ==========================================
-    // COMPONENTES INTERNOS
-    // ==========================================
+    // ======================================
+    // COMPONENTES
+    // ======================================
 
-    // Card para detalhes do clima (na área principal)
-    component DetailCard: Rectangle {
-        property string label: ""
-        property string value: ""
+    component InfoCard : Rectangle {
+
+        property string titulo
+        property string valor
+        property string icone
+
+        Layout.fillWidth: true
+        Layout.preferredHeight: 90
+
+        radius: 8
+        color: "#161f2b"
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.margins: 12
+
+            Label {
+                text: icone
+                font.pixelSize: 26
+            }
+
+            Column {
+                spacing: 4
+
+                Label {
+                    text: titulo
+                    color: "#9ca3af"
+                }
+
+                Label {
+                    text: valor
+                    color: "white"
+                    font.bold: true
+                    font.pixelSize: 20
+                }
+            }
+        }
+    }
+
+    component ClimaInfo : Column {
+
+        property string titulo
+        property string valor
+
+        spacing: 5
+
+        Label {
+            text: parent.titulo
+            color: "#9ca3af"
+        }
+
+        Label {
+            text: parent.valor
+            color: "white"
+            font.bold: true
+            font.pixelSize: 18
+        }
+    }
+
+    component ForecastCard : Rectangle {
+
+        property string hora
+        property string temp
+        property string icone
 
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.preferredHeight: 60
-        color: "#38637f"
-        radius: 5
 
-        RowLayout {
-            anchors.fill: parent
-            anchors.margins: 10
+        radius: 8
+        color: "#111827"
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 5
+
             Label {
-                text: label
-                color: "white"
-                font.pixelSize: 14
-                Layout.fillWidth: true
+                text: hora
+                color: "#9ca3af"
             }
+
             Label {
-                text: value
+                text: icone
+                font.pixelSize: 28
+            }
+
+            Label {
+                text: temp
                 color: "white"
                 font.bold: true
-                font.pixelSize: 14
-            }
-        }
-    }
-
-    // Card para resumo das outras telas (na lateral)
-    component ResumoCard: Rectangle {
-        property string icon: ""
-        property string label: ""
-        property string value: ""
-
-        Layout.fillWidth: true
-        Layout.preferredHeight: 60
-        color: "#38637f"
-        radius: 5
-
-        RowLayout {
-            anchors.fill: parent
-            anchors.margins: 10
-            Label {
-                text: icon
-                color: "white"
-                font.pixelSize: 24
-                Layout.preferredWidth: 40
-            }
-            ColumnLayout {
-                Layout.fillWidth: true
-                Label {
-                    text: label
-                    color: "white"
-                    font.pixelSize: 14
-                    font.bold: true
-                }
-                Label {
-                    text: value
-                    color: "#d0e4f0"
-                    font.pixelSize: 12
-                }
             }
         }
     }

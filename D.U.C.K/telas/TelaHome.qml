@@ -1,120 +1,144 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 
 Rectangle {
-    id: homeRoot
-    anchors.fill: parent          // 🔹 Preenche todo o espaço da janela
-    color: "#003455"
+
+    anchors.fill: parent
+    color: "#0c1117"
 
     GridLayout {
-        anchors.fill: parent      // 🔹 Expande para ocupar toda a homeRoot
-        anchors.margins: 20
+
+        anchors.fill: parent
+        anchors.margins: 12
+
         columns: 2
-        rowSpacing: 15
-        columnSpacing: 15
+        rowSpacing: 12
+        columnSpacing: 12
 
-        // ---------- Velocímetro (0,0) ----------
-        ShadowCard {
-            Layout.row: 0
-            Layout.column: 0
-            Layout.fillWidth: true      // Permite expandir horizontalmente
-            Layout.fillHeight: true
-            Layout.minimumHeight: 140
-            Layout.preferredHeight: 1   // Proporção: altura relativa dentro da linha
-            cardColor: "#5587AD"
-            Text {
-                anchors.centerIn: parent
-                text: "Velocímetro"
-                color: "white"
-                font.pixelSize: 24
-            }
-        }
+        // ===========================
+        // GPS
+        // ===========================
 
-        // ---------- Plantação (0,1 + 0,2) ----------
-        ShadowCard {
-            Layout.row: 1
-            Layout.column: 0
-            Layout.columnSpan: 1
+        Rectangle {
+
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.minimumHeight: 150
-            Layout.preferredHeight: 1
-            cardColor: "#5587AD"
-            Text {
-                anchors.centerIn: parent
-                text: "Plantação"
-                font.pixelSize: 20
-                color: "white"
-            }
-        }
 
-        // ---------- GPS (1,0) ----------
-        ShadowCard {
-            Layout.row: 0
-            Layout.column: 1
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.minimumHeight: 150
-            Layout.preferredHeight: 1
-            Layout.preferredWidth: 700
-            cardColor: "#5587AD"
-            Text {
-                anchors.centerIn: parent
-                text: "GPS"
-                color: "white"
-                font.pixelSize: 24
-            }
-        }
+            Layout.rowSpan: 2
 
-        // ---------- 4 cards pequenos (1,1 + 1,2) ----------
-        Item {
-            Layout.row: 1
-            Layout.column: 1
-            Layout.columnSpan: 2
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.preferredHeight: 1
+            radius: 12
+            color: "#111827"
 
-            RowLayout {
+            Column {
                 anchors.fill: parent
-                spacing: 10
+                anchors.margins: 15
 
-                ShadowCard {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "Chuva"; color: "white" }
+                Label {
+                    text: "GPS"
+                    color: "#84cc16"
+                    font.bold: true
+                    font.pixelSize: 20
                 }
-                ShadowCard {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "Temp"; color: "white" }
-                }
-                ShadowCard {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "Vento"; color: "white" }
-                }
-                ShadowCard {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "ml chuva"; color: "white" }
-                }
-                ShadowCard {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    cardColor: "#5587AD"
-                    Text { anchors.centerIn: parent; text: "combustivel"; color: "white" }
+
+                Rectangle {
+
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    width: parent.width
+                    height: parent.height - 50
+
+                    radius: 10
+                    color: "#161f2b"
+
+                    Label {
+                        anchors.centerIn: parent
+                        text: "MAPA"
+                        color: "#6b7280"
+                        font.pixelSize: 28
+                    }
                 }
             }
         }
 
+        // ===========================
+        // VELOCIDADE
+        // ===========================
 
-        // Espaços vazios para manter proporção (opcional)
-        Item { Layout.row: 2; Layout.column: 1; Layout.fillWidth: true; Layout.fillHeight: true }
-        Item { Layout.row: 2; Layout.column: 2; Layout.fillWidth: true; Layout.fillHeight: true }
+        DashboardCard {
+            titulo: "Velocidade"
+            valor: "12 km/h"
+            icone: "🚜"
+        }
+
+        // ===========================
+        // COMBUSTÍVEL
+        // ===========================
+
+        DashboardCard {
+            titulo: "Combustível"
+            valor: "65%"
+            icone: "⛽"
+        }
+
+        // ===========================
+        // COLHEITA
+        // ===========================
+
+        DashboardCard {
+            titulo: "Produtividade"
+            valor: "8.2 t/ha"
+            icone: "🌾"
+        }
+
+        // ===========================
+        // CLIMA
+        // ===========================
+
+        DashboardCard {
+            titulo: "Clima"
+            valor: "28°C"
+            icone: "☀"
+        }
+    }
+
+    component DashboardCard : Rectangle {
+
+        property string titulo
+        property string valor
+        property string icone
+
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
+        radius: 12
+        color: "#111827"
+
+        RowLayout {
+
+            anchors.fill: parent
+            anchors.margins: 15
+
+            Label {
+                text: icone
+                font.pixelSize: 32
+            }
+
+            Column {
+
+                Label {
+                    text: titulo
+                    color: "#9ca3af"
+                    font.pixelSize: 14
+                }
+
+                Label {
+                    text: valor
+                    color: "white"
+                    font.pixelSize: 28
+                    font.bold: true
+                }
+            }
+        }
     }
 }

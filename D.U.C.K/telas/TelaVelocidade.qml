@@ -3,97 +3,27 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Rectangle {
-    id: rootTelaVelocidade
+    id: root
     anchors.fill: parent
-    color: "#003455"
+    color: "#0c1117"
 
     RowLayout {
         anchors.fill: parent
-        anchors.margins: 15
-        spacing: 15
+        anchors.margins: 12
+        spacing: 12
 
-        // ÁREA PRINCIPAL – VELOCÍMETRO (70%)
+        // =====================================
+        // ÁREA PRINCIPAL
+        // =====================================
+
         Rectangle {
-            id: areaVelocidade
             Layout.fillWidth: true
             Layout.preferredWidth: 7
             Layout.fillHeight: true
-            color: "#4a7a96"
-            radius: 10
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 20
-                spacing: 15
-
-                Label {
-                    text: "VELOCÍMETRO"
-                    color: "white"
-                    font.bold: true
-                    font.pixelSize: 22
-                    Layout.alignment: Qt.AlignHCenter
-                }
-
-                // Velocímetro analógico (simulado com um círculo)
-                Item {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.preferredHeight: 200
-                    Rectangle {
-                        anchors.centerIn: parent
-                        width: Math.min(parent.width, parent.height) * 0.8
-                        height: width
-                        color: "#38637f"
-                        radius: width / 2
-                        border.color: "white"
-                        border.width: 4
-
-                        Label {
-                            anchors.centerIn: parent
-                            text: "32 km/h"
-                            color: "white"
-                            font.pixelSize: 36
-                            font.bold: true
-                        }
-                        // Pequeno ponteiro (apenas visual)
-                        Rectangle {
-                            anchors.centerIn: parent
-                            width: parent.width * 0.03
-                            height: parent.height * 0.35
-                            color: "red"
-                            rotation: 45
-                            transformOrigin: Item.Bottom
-                            anchors.verticalCenterOffset: -parent.height/2 + 10
-                        }
-                    }
-                }
-
-                // Dados adicionais
-                GridLayout {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    columns: 2
-                    rowSpacing: 10
-                    columnSpacing: 10
-
-                    DetailCard { label: "Velocidade média"; value: "28 km/h" }
-                    DetailCard { label: "Velocidade máxima"; value: "45 km/h" }
-                    DetailCard { label: "Distância percorrida"; value: "1.230 km" }
-                    DetailCard { label: "Tempo de viagem"; value: "3h 20min" }
-                    DetailCard { label: "RPM médio"; value: "2.100" }
-                    DetailCard { label: "Consumo médio"; value: "4.2 km/l" }
-                }
-            }
-        }
-
-        // BARRA LATERAL – INFORMAÇÕES BÁSICAS (30%)
-        Rectangle {
-            id: barraLateral
-            Layout.fillWidth: true
-            Layout.preferredWidth: 3
-            Layout.fillHeight: true
-            color: "#2c526d"
-            radius: 10
+            radius: 12
+            color: "#111827"
+            border.color: "#1f2937"
 
             ColumnLayout {
                 anchors.fill: parent
@@ -101,82 +31,256 @@ Rectangle {
                 spacing: 12
 
                 Label {
-                    text: "INFORMAÇÕES"
-                    color: "white"
+                    text: "VELOCIDADE"
+                    color: "#84cc16"
+                    font.pixelSize: 24
                     font.bold: true
-                    font.pixelSize: 18
-                    Layout.alignment: Qt.AlignHCenter
                 }
 
-                ResumoCard { icon: "🚗"; label: "Velocidade"; value: "12 km/h" }
-                ResumoCard { icon: "🌤️"; label: "Clima"; value: "28°C" }
-                ResumoCard { icon: "🌱"; label: "Colheita"; value: "Em crescimento" }
-                ResumoCard { icon: "⛽"; label: "Combustível"; value: "45%" }
+                // =====================================
+                // VELOCÍMETRO
+                // =====================================
 
-                Item { Layout.fillHeight: true }
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    radius: 12
+                    color: "#161f2b"
+
+                    Item {
+                        anchors.centerIn: parent
+                        width: 350
+                        height: 350
+
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: width / 2
+                            color: "#0f172a"
+                            border.color: "#334155"
+                            border.width: 3
+                        }
+
+                        Column {
+                            anchors.centerIn: parent
+                            spacing: 8
+
+                            Label {
+                                text: "45"
+                                color: "white"
+                                font.pixelSize: 72
+                                font.bold: true
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+
+                            Label {
+                                text: "km/h"
+                                color: "#9ca3af"
+                                font.pixelSize: 24
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+                        }
+                    }
+                }
+
+                // =====================================
+                // CARDS INFERIORES
+                // =====================================
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 100
+
+                    MetricCard {
+                        title: "Distância"
+                        value: "124 km"
+                    }
+
+                    MetricCard {
+                        title: "Tempo Operação"
+                        value: "03:20 h"
+                    }
+
+                    MetricCard {
+                        title: "Aceleração"
+                        value: "0.5 m/s²"
+                    }
+                }
+            }
+        }
+
+        // =====================================
+        // COLUNA DE DADOS DA VELOCIDADE
+        // =====================================
+
+        ColumnLayout {
+
+            Layout.preferredWidth: 220
+            Layout.fillHeight: true
+            spacing: 10
+
+            SpeedInfo {
+                title: "RPM"
+                value: "2200"
+            }
+
+            SpeedInfo {
+                title: "Marcha"
+                value: "4"
+            }
+
+            SpeedInfo {
+                title: "Vel. Média"
+                value: "38 km/h"
+            }
+
+            SpeedInfo {
+                title: "Vel. Máxima"
+                value: "62 km/h"
+            }
+        }
+
+        // =====================================
+        // SIDEBAR GLOBAL
+        // =====================================
+
+        Rectangle {
+
+            Layout.preferredWidth: 260
+            Layout.fillHeight: true
+
+            radius: 12
+            color: "#111827"
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 10
+
+                InfoCard {
+                    titulo: "Combustível"
+                    valor: "65%"
+                    icone: "⛽"
+                }
+
+                InfoCard {
+                    titulo: "Colheita"
+                    valor: "8.2 t/ha"
+                    icone: "🌾"
+                }
+
+                InfoCard {
+                    titulo: "Clima"
+                    valor: "28°C"
+                    icone: "☀"
+                }
+
+                InfoCard {
+                    titulo: "GPS"
+                    valor: "Talhão Norte"
+                    icone: "📍"
+                }
+
+                Item {
+                    Layout.fillHeight: true
+                }
             }
         }
     }
 
-    component DetailCard: Rectangle {
-        property string label: ""
-        property string value: ""
+    // =====================================
+    // COMPONENTES
+    // =====================================
+
+    component MetricCard : Rectangle {
+
+        property string title
+        property string value
 
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.preferredHeight: 60
-        color: "#38637f"
-        radius: 5
 
-        RowLayout {
-            anchors.fill: parent
-            anchors.margins: 10
+        radius: 8
+        color: "#161f2b"
+
+        Column {
+            anchors.centerIn: parent
+
             Label {
-                text: label
-                color: "white"
-                font.pixelSize: 14
-                Layout.fillWidth: true
+                text: title
+                color: "#9ca3af"
             }
+
             Label {
                 text: value
                 color: "white"
+                font.pixelSize: 22
                 font.bold: true
-                font.pixelSize: 14
             }
         }
     }
 
-    component ResumoCard: Rectangle {
-        property string icon: ""
-        property string label: ""
-        property string value: ""
+    component SpeedInfo : Rectangle {
+
+        property string title
+        property string value
 
         Layout.fillWidth: true
-        Layout.preferredHeight: 60
-        color: "#38637f"
-        radius: 5
+        Layout.fillHeight: true
+
+        radius: 8
+        color: "#161f2b"
+
+        Column {
+            anchors.centerIn: parent
+
+            Label {
+                text: title
+                color: "#9ca3af"
+            }
+
+            Label {
+                text: value
+                color: "white"
+                font.pixelSize: 26
+                font.bold: true
+            }
+        }
+    }
+
+    component InfoCard : Rectangle {
+
+        property string titulo
+        property string valor
+        property string icone
+
+        Layout.fillWidth: true
+        Layout.preferredHeight: 90
+
+        radius: 8
+        color: "#161f2b"
 
         RowLayout {
             anchors.fill: parent
-            anchors.margins: 10
+            anchors.margins: 12
+
             Label {
-                text: icon
-                color: "white"
+                text: icone
                 font.pixelSize: 24
-                Layout.preferredWidth: 40
             }
-            ColumnLayout {
-                Layout.fillWidth: true
+
+            Column {
+
                 Label {
-                    text: label
-                    color: "white"
-                    font.pixelSize: 14
-                    font.bold: true
+                    text: titulo
+                    color: "#9ca3af"
                 }
+
                 Label {
-                    text: value
-                    color: "#d0e4f0"
-                    font.pixelSize: 12
+                    text: valor
+                    color: "white"
+                    font.bold: true
+                    font.pixelSize: 18
                 }
             }
         }
